@@ -1,10 +1,11 @@
-#good1
 kind: pipeline
-type: docker
 name: default
+
 steps:
-- name: test
-  image: maven:latest
-  commands:
-  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-  - mvn test -B
+- name: build-java-app
+  image: docker.io/kameshsampath/drone-java-maven-plugin:v1.0.2
+  pull: if-not-exists
+  settings:
+    goals: 
+    - clean 
+    - install 
