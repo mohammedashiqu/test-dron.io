@@ -1,6 +1,6 @@
 kind: pipeline
 name: default
-#
+##
 steps:
 - name: build-java-app
   image: docker.io/kameshsampath/drone-java-maven-plugin:v1.0.2
