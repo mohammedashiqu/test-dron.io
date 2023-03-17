@@ -1,7 +1,7 @@
 kind: pipeline
 type: ssh
 name: my-pipeline
-
+#
 steps:
 - name: deploy
   image: ashiqummathoor/ssh
