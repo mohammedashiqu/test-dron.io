@@ -1,7 +1,7 @@
 kind: pipeline
 name: deploy-to-docker
 steps:
-- name: deploy
+  - name: deploy
     image: ashiqummathoor/webapp
     settings:
       host: 3.91.30.115
