@@ -1,17 +1,16 @@
 kind: pipeline
 type: ssh
 name: my-pipeline
-#
+
 steps:
 - name: deploy
-  image: ashiqummathoor/ssh
-  commands:
-  - apk add --no-cache openssh-client
-  - mkdir -p ~/.ssh
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-  - chmod 600 ~/.ssh/id_rsa
-  - ssh -o StrictHostKeyChecking=no root@3.91.30.115 "docker pull ashiqummathoor/ssh && docker run -d -p 1700:8080 ashiqummathoor/webapp"
-  environment:
-    SSH_PRIVATE_KEY:
-      from_secret: ssh_private_key
-
+  image: plugins/ssh
+  settings:
+    host: 3.91.30.115    
+    username: root
+    password:
+      from_secret: ssh_password
+    port: 22
+    script:
+    - docker pull my-registry/my-image:latest
+    - docker run -d -p 80:80 my-registry/my-image:latest
