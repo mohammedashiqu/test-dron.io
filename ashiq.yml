@@ -1,0 +1,16 @@
+kind: pipeline
+name: ecs-deploy
+steps:
+ - name: deploy
+    image: amazon/aws-cli
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: aws_access_key_id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: aws_secret_access_key
+      AWS_DEFAULT_REGION: us-east-1 # Change this to your region
+
+    commands:
+      - aws ecs configure --cluster my-cluster --default-launch-type FARGATE
+      - aws ecs register-task-definition --family my-app-task-def --container-definitions file://task.json
+      - aws ecs update-service --service my-app-service --force-new-deployment
