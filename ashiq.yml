@@ -4,12 +4,13 @@ steps:
   - name: deploy
     image: kroniak/ssh-client
     settings:
-      host: 3.91.30.115
+      host: tcp://3.91.30.115:2375
       username:
         from_secret: ssh_username
       password:
         from_secret: ssh_password
       script:
+        -
         #- docker stop your-container-name || true
         #- docker rm your-container-name || true
         - docker run -d --name webapp -p 4001:80 nginx
