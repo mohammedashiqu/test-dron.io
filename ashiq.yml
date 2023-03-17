@@ -1,17 +1,15 @@
 kind: pipeline
-name: ecs-deploy
+name: deploy-to-docker
 steps:
- - name: deploy
-    image: amazon/aws-cli
-    environment:
-      AWS_ACCESS_KEY_ID:
-        from_secret: aws_access_key_id
-      AWS_SECRET_ACCESS_KEY:
-        from_secret: aws_secret_access_key
-      AWS_DEFAULT_REGION: us-east-1 # Change this to your region
-
-
-    commands:
-      - aws ecs configure --cluster my-cluster --default-launch-type FARGATE
-      - aws ecs register-task-definition --family my-app-task-def --container-definitions file://task.json
-      - aws ecs update-service --service my-app-service --force-new-deployment
+- name: deploy
+    image: ashiqummathoor/webapp
+    settings:
+      host: 3.91.30.115
+      username:
+        from_secret: ssh_username
+      password:
+        from_secret: ssh_password
+      script:
+        #- docker stop your-container-name || true
+        #- docker rm your-container-name || true
+        - docker run -d --name webapp -p 3000:8080 ashiqummathoor/webapp:latest
