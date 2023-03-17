@@ -2,7 +2,7 @@ kind: pipeline
 name: deploy-to-docker
 steps:
   - name: deploy
-    image: ashiqummathoor/webapp
+    image: kroniak/ssh-client
     settings:
       host: 3.91.30.115
       username:
@@ -12,4 +12,4 @@ steps:
       script:
         #- docker stop your-container-name || true
         #- docker rm your-container-name || true
-        - docker run -d --name webapp -p 4000:80 nginx
+        - docker run -d --name webapp -p 4001:80 nginx
