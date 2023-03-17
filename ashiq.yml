@@ -9,8 +9,7 @@ steps:
         from_secret: ssh_username
       password:
         from_secret: ssh_password
-      script:
-        -
+    commands:
         #- docker stop your-container-name || true
         #- docker rm your-container-name || true
         - docker run -d --name webapp -p 4001:80 nginx
