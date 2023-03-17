@@ -1,15 +1,17 @@
 kind: pipeline
-name: deploy-to-docker
+type: ssh
+name: my-pipeline
+
 steps:
-  - name: deploy
-    image: kroniak/ssh-client
-    settings:
-      host: tcp://3.91.30.115:2375
-      username:
-        from_secret: ssh_username
-      password:
-        from_secret: ssh_password
-    commands:
-        #- docker stop your-container-name || true
-        #- docker rm your-container-name || true
-        - docker run -d --name webapp -p 4001:80 nginx
+- name: deploy
+  image: ashiqummathoor/ssh
+  commands:
+  - apk add --no-cache openssh-client
+  - mkdir -p ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - ssh -o StrictHostKeyChecking=no root@3.91.30.115 "docker pull ashiqummathoor/ssh && docker run -d -p 1700:8080 ashiqummathoor/webapp"
+  environment:
+    SSH_PRIVATE_KEY:
+      from_secret: ssh_private_key
+
